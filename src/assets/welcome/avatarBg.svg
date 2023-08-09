@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="605px" height="605px" viewBox="0 0 605 605" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>bg</title>
+    <defs>
+        <path d="M302.5,605 C370.864021,605 433.931301,582.321955 484.589352,544.078354 C557.72807,488.863281 605,401.202116 605,302.5 C605,205.142346 559.00712,118.526906 487.563658,63.1959744 C436.409843,23.5787986 372.208483,0 302.5,0 C233.502751,0 169.900821,23.1001051 119.006173,61.9883514 C46.6673249,117.261962 0,204.431112 0,302.5 C0,401.067644 47.143211,488.624401 120.111859,543.852498 C170.820614,582.232653 234.001507,605 302.5,605 Z" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="605" height="605" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <path d="M302.5,542.5 C356.739223,542.5 406.776073,524.507502 446.967585,494.165471 C504.994998,450.358471 542.5,380.809117 542.5,302.5 C542.5,225.257564 506.009781,156.537875 449.327365,112.638955 C408.74252,81.207146 357.805904,62.5 302.5,62.5 C247.758381,62.5 197.297345,80.8273561 156.918121,111.680841 C99.5253157,155.534284 62.5,224.693279 62.5,302.5 C62.5,380.702428 99.9028781,450.168947 157.79536,493.98628 C198.027098,524.43665 248.154088,542.5 302.5,542.5 Z" id="path-3"></path>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="480" height="480" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+    </defs>
+    <g id="武进名人全息馆20230712✅" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-dasharray="6,6">
+        <g id="武进名人全息馆-详情" transform="translate(-285.000000, -259.000000)" stroke="#D5B270" stroke-width="6">
+            <g id="编组-5" transform="translate(225.000000, 259.000000)">
+                <g id="bg" transform="translate(60.000000, 0.000000)">
+                    <use id="椭圆形" mask="url(#mask-2)" opacity="0.135537791" xlink:href="#path-1"></use>
+                    <use id="椭圆形" mask="url(#mask-4)" opacity="0.0849836483" xlink:href="#path-3"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
