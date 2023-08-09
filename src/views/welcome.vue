@@ -445,6 +445,7 @@ const crash = (a) => {
           </div>
         </div>
       </template>
+      <div class="welcome-timeline"></div>
       <div class="welcome-bottom">
         <img :src="leftmovePng" alt="" class="welcome-bottom-left" />
         <img :src="rightmovePng" alt="" class="welcome-bottom-right" />
