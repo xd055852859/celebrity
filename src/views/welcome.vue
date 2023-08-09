@@ -27,6 +27,7 @@ const randomArr = ref<any[]>([]);
 const timerArr = ref<any[]>([]);
 
 const boxRef = ref<any>(null);
+const borderRef = ref<any>(null);
 const maxWidth = ref<number>(0);
 const maxHeight = ref<number>(0);
 const circleDom = ref<any[]>([]);
@@ -37,8 +38,22 @@ const maxH = ref<number>(0);
 const timer = ref<any>(null);
 const timer1 = ref<any>(null);
 const count = ref<number>(0);
+const pageNum = ref<number>(0);
+const pageWidth = ref<number>(0);
 const animateState = ref<boolean>(false);
 const imgRef = ref<any>(null);
+const colorArr = [
+  "#B2E47E",
+  "#FFE6A3",
+  "#FFAA72",
+  "#70D7FF",
+  "#C6B6FF",
+  "#F2ADFF",
+  "#FA8686",
+  "#A79AFF",
+  "#A4E6D7",
+  "#F8F0DD",
+];
 onMounted(() => {
   getData();
   getCelebrity();
@@ -92,20 +107,21 @@ const getCelebrity = async () => {
   })) as ResultProps;
   if (dataRes.msg === "OK") {
     tableList.value = [...dataRes.data];
+    pageNum.value = Math.ceil((dataRes.total as number) / 5);
+    pageWidth.value = 100 / pageNum.value;
     // tableList.value = createdCelebrity(dataRes.data);
-    getRandomList(tableList.value);
+    getRandomList();
     nextTick(() => {
       initBubble();
     });
-    timer.value = setInterval(() => {
-      clearData();
-      getRandomList(tableList.value);
-      animateState.value = true;
-      initBubble();
-      timer1.value = setTimeout(() => {
-        animateState.value = false;
-      }, 2000);
-    }, 15000);
+    // timer.value = setInterval(() => {
+    //   clearData();
+    //   // animateState.value = true;
+    //   initBubble();
+    //   // timer1.value = setTimeout(() => {
+    //   //   animateState.value = false;
+    //   // }, 2000);
+    // }, 15000);
   }
 };
 const clearData = () => {
@@ -126,20 +142,14 @@ const clearData = () => {
   maxW.value = 0;
   maxH.value = 0;
 };
-const getRandomList = (arr) => {
-  // randomArr.value = [];
-  let newArr = [...arr];
-  if (count.value > newArr.length) {
-    count.value = 0;
-  }
-  randomArr.value = newArr.slice(count.value, count.value + 5).reverse();
-  count.value = count.value + 5;
-
-  // for (let i = 0; i < 5; i++) {
-  //   let index = Math.round(Math.random() * (newArr.length - 1));
-  //   randomArr.value[i] = { ...randomArr.value[i], ...newArr[index] };
-  //   newArr.splice(index, 1);
+const getRandomList = () => {
+  // if (count.value > pageNum.value) {
+  //   count.value = 0;
   // }
+  randomArr.value = tableList.value
+    .slice(count.value * 5, count.value * 5 + 5)
+    .reverse();
+  console.log(randomArr.value);
   randomArr.value = createdCelebrity(randomArr.value);
 };
 const createdCelebrity = (arr) => {
@@ -350,6 +360,16 @@ const crash = (a) => {
     }
   }
 };
+const clickTimeLine = (index) => {
+  console.log(index - count.value);
+  count.value = index;
+
+  getRandomList();
+  animateState.value = true;
+  timer1.value = setTimeout(() => {
+    animateState.value = false;
+  }, 2000);
+};
 </script>
 <template>
   <div
@@ -381,42 +401,6 @@ const crash = (a) => {
 
     <div class="welcome-title"><img :src="titlePng" alt="" /></div>
     <div class="welcome-box" ref="boxRef">
-      <!-- <div class="welcome-title">{{ welcome }}</div> -->
-      <!-- <div
-        class="welcome-item welcome-first"
-        v-if="tableList.length > 0"
-        :style="{ height: welcome ? '80%' : '100%' }"
-      >
-        <div class="welcome-img-box">
-          <div
-            class="welcome-img button-big"
-            @click="$router.push('/welcomeDetail/' + tableList[0]._key)"
-          >
-            <img :src="tableList[0].avatar" alt="" />
-          </div>
-          <div class="welcome-item-bg">
-            <div
-              class="welcome-img-bg"
-              :style="{
-                backgroundImage: `url(${background1Svg}`,
-              }"
-            >
-              <span> {{ tableList[0].name }}</span>
-            </div>
-          </div>
-        </div> -->
-      <!-- </div> -->
-      <!-- <div
-        class="welcome-item"
-        
-        :style="{
-          justifyContent: item.position === 'left' ? 'flex-start' : 'flex-end',
-        }"
-      > -->
-      <!-- :style="{
-            width: item.height * 0.85 + 'px',
-            height: item.height * 0.85 + 'px',
-          }" -->
       <template v-if="randomArr.length > 0">
         <div
           class="welcome-img-box"
@@ -427,7 +411,7 @@ const crash = (a) => {
             class="welcome-img"
             :class="{
               [item.style]: true,
-              'fade-in': animateState,
+              // 'fade-in': animateState,
             }"
             @click="$router.push('/welcomeDetail/' + item._key)"
           >
@@ -445,7 +429,27 @@ const crash = (a) => {
           </div>
         </div>
       </template>
-      <div class="welcome-timeline"></div>
+      <div class="welcome-timeline">
+        <div
+          class="timeline-item"
+          v-for="(item, index) in pageNum"
+          :key="'color' + index"
+          :style="{
+            backgroundColor: colorArr[index],
+            width: pageWidth + 'vw',
+          }"
+          @click="clickTimeLine(index)"
+        ></div>
+        <div
+          class="timeline-border"
+          ref="borderRef"
+          :style="{
+            width: pageWidth + 'vw',
+            transform: `translateX(${count * pageWidth}vw)`,
+            // left: count * pageWidth + 'vw',
+          }"
+        ></div>
+      </div>
       <div class="welcome-bottom">
         <img :src="leftmovePng" alt="" class="welcome-bottom-left" />
         <img :src="rightmovePng" alt="" class="welcome-bottom-right" />
@@ -576,6 +580,32 @@ const crash = (a) => {
     //   width: 0px;
     //   height: 0px;
     // }
+  }
+  .welcome-timeline {
+    width: 100vw;
+    height: 60px;
+    position: fixed;
+    z-index: 3;
+    left: 0px;
+    bottom: 0px;
+
+    cursor: pointer;
+    @include flex(flex-start, center, null);
+    .timeline-item {
+      height: 30px;
+      flex-shrink: 0;
+    }
+    .timeline-border {
+      height: 100%;
+      position: absolute;
+      z-index: 5;
+      top: 0px;
+      left: 0px;
+      border: 4px solid #ddb15e;
+      box-sizing: border-box;
+      border-radius: 8px;
+      transition: transform 0.5s ease;
+    }
   }
   .welcome-bottom {
     position: fixed;
